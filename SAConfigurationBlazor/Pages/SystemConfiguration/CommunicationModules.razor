@@ -1,0 +1,142 @@
+﻿@page "/1"
+@using SAConfigurationBlazor.Pages.SystemConfiguration
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage ProtectedSessionStore
+
+	<div style="border:3px solid black;">
+		<h3>Communication Modules</h3>
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<td>
+
+						<b>TCP Module Config</b>
+					</td>
+					<td>
+						<b>Enabled: </b>						
+						<select  @onchange="(e) => OnTCPChanged(e.Value)">
+							<option value="True">True</option>
+							<option value="False">False</option>
+						</select>	
+					</td>
+				</tr>
+				@if (@TCPModuleConfig == true)
+				{
+					<tr>
+						<TCPModuleConfig></TCPModuleConfig>
+					</tr>
+				}
+
+				<tr>
+					<td>
+						@*<button @onclick="e => this.IntegrationConfig = !this.IntegrationConfig">
+							@( this.IntegrationCollapsed ? "-" : "+")
+							</button>*@
+						<b>Integration Config</b>
+					</td>
+					<td>
+						<b>Enabled: </b>						
+						<select  @onchange="(e) => OnIntegrationChangedAsync(e.Value)">
+							<option value="True">True</option>
+							<option value="False">False</option>
+						</select>	
+					</td>
+				</tr>
+				@if (@IntegrationConfig == true)
+				{
+					<tr>@ExpandableContent</tr>
+				}
+
+			</tbody>
+		</table>
+
+	</div>
+
+
+
+@code {
+
+	private bool isConnected;
+	public bool? tcpModuleConfig = false;
+	public bool? integrationConfig = false;
+
+	[Parameter]
+	public bool? TCPModuleConfig { get; set; }
+	[Parameter]
+	public bool? IntegrationConfig { get; set; }
+
+	protected override void OnParametersSet()
+	{
+		base.OnParametersSet();
+
+		tcpModuleConfig = TCPModuleConfig;
+		integrationConfig = IntegrationConfig;
+	}
+
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		tcpModuleConfig = TCPModuleConfig;
+		integrationConfig = IntegrationConfig;
+
+	}
+
+	//protected override async Task OnInitializedAsync()
+	//{
+	//	var result = await ProtectedSessionStore.GetAsync<bool>("intConfig");
+	//	integrationConfig = result.Success ? result.Value : false;
+	//	isConnected = true;
+	//	//base.OnInitialized();
+	//	tcpModuleConfig = TCPModuleConfig;
+ //   }
+
+	 //protected override async Task OnAfterRenderAsync(bool firstRender)
+		//{
+  //      if (firstRender)
+  //      {
+  //          isConnected = true;
+  //          await LoadStateAsync();
+  //          StateHasChanged();
+  //      }
+  //  }
+
+	 //private async Task SaveChangesAsync()
+  //  {
+  //      await ProtectedSessionStore.SetAsync("intConfig", integrationConfig);
+  //  }
+
+	public async Task OnIntegrationChangedAsync(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			integrationConfig = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		integrationConfig = result;
+		await ProtectedSessionStore.SetAsync("intConfig", integrationConfig);
+	}
+
+	public void OnTCPChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			TCPModuleConfig = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		TCPModuleConfig = result;
+	}
+
+	public bool TcpCollapsed { get; set; } = false;
+	public bool IntegrationCollapsed { get; set; } = false;
+	public string ExpandableContent { get; set; } = "Lorem Ipsum";
+
+	public TCPModuleConfig expandableContent { get; set; }
+
+}
+

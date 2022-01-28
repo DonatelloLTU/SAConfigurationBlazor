@@ -1,0 +1,120 @@
+﻿
+
+<div style="border:0px solid black;">
+	<table class="table">
+		<tbody>
+			<tr>
+				<td>
+					<u>Behavior</u>
+					<button @onclick="e => this.BehaviorCollapsed = !this.BehaviorCollapsed">
+						@( this.BehaviorCollapsed ? "-" : "+")
+					</button>
+				</td>
+				<td>
+					<input type="text" disabled="true"  @bind=@ipAddress></input>	
+				</td>
+			</tr>
+			@if (@BehaviorCollapsed)
+			{
+			<tr>
+				<td>Remote IP</td>
+				<td><input type="text"  @bind=@ipAddress></input></td>
+			</tr>
+			<tr>
+				<td>Remote Port</td>
+				<td><input type="text"  @bind=@remotePort></input></td>
+			</tr>
+			<tr>
+				<td>Heartbeat Expected Every</td>
+				<td><input type="number"  @bind=@heartbeatExpectedEvery></input></td>
+			</tr>
+			<tr>
+				<td>Send Measurment Every</td>
+				<td><input type="number"  @bind=@sendMeasurmentEvery></input></td>
+			</tr>
+			<tr>
+				<td>Packet Sizes Are Little Endian</td>
+				<td><select  @onchange="(e) => OnLittleEndianChanged(e.Value)">
+						<option value="True">True</option>
+						<option value="False">False</option>
+					</select>	</td>
+			</tr>
+			}
+			<tr>
+				<td>
+					<u>Telegrams</u>
+				</td>
+				<td>
+											
+					
+				</td>
+			</tr>
+		
+</tbody>
+</table>
+</div>
+
+@code {
+
+
+	private string? ipAddress = "";
+	private string? remotePort = "";
+	private string? heartbeatExpectedEvery = "";
+	private int? sendMeasurmentEvery = 0;
+	private bool? littleEndian = false;
+
+	[Parameter]
+	public string? IpAddress { get; set; }
+	[Parameter]
+	public string? RemotePort{ get; set; }
+	[Parameter]
+	public string? HeartbeatExpectedEvery { get; set; }
+	[Parameter]
+	public int? SendMeasurmentEvery { get; set; }
+	[Parameter]
+	public bool? PacketSizesAreLittleEndian { get; set; }
+
+
+	protected override void OnParametersSet()
+	{
+		base.OnParametersSet();
+
+		ipAddress = IpAddress;
+		remotePort = RemotePort;
+		heartbeatExpectedEvery = HeartbeatExpectedEvery;
+		sendMeasurmentEvery = SendMeasurmentEvery;
+		littleEndian = PacketSizesAreLittleEndian;
+	}
+
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		ipAddress = IpAddress;
+		remotePort = RemotePort;
+		heartbeatExpectedEvery = HeartbeatExpectedEvery;
+		sendMeasurmentEvery = SendMeasurmentEvery;
+		littleEndian = PacketSizesAreLittleEndian;
+	}
+
+	
+	public void OnLittleEndianChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			littleEndian = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		littleEndian = result;
+	}
+	
+
+	public bool BehaviorCollapsed { get; set; } = false;
+	public bool IntegrationCollapsed { get; set; } = false;
+	public string ExpandableContent { get; set; } = "Lorem Ipsum";
+
+	
+	
+}

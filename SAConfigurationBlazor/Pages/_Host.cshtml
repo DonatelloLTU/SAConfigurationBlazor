@@ -1,0 +1,15 @@
+﻿@page "/"
+@namespace SAConfigurationBlazor.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+}
+<body>
+<script type="text/javascript">
+    var arr = document.querySelector('.arrow');
+arr.addEventListener('click', function(event) {
+  event.target.classList.toggle('down');
+});
+</script>
+</body>
+<component type="typeof(App)" render-mode="ServerPrerendered" />
