@@ -1,0 +1,283 @@
+﻿@page "/4"
+
+<div style="border:0px solid black;">
+	<table class="table">
+		<tbody>
+			<tr>
+				<td>Server Endpoint URL</td>
+				<td><input type="text"  @bind=@serverEndPointURL></input></td>
+			</tr>
+			<tr>
+				<td>Lane Output Interval</td>
+				<td><input type="text"  @bind=@laneOutputInterval></input></td>
+			</tr>
+			<tr>
+				<td>Update Rate</td>
+				<td><input type="number"  @bind=@updateRate></input></td>
+			</tr>
+			<tr>
+				<td>Update Input.RUN bit?</td>
+				<td><select @onchange="(UpdateInputRUNBit) => OnUpdateInputRunBitChanged(UpdateInputRUNBit.Value)">
+						@if(@UpdateInputRUNBit == true)
+					{
+						<option value="True">True</option>
+							<option value="False">False</option>
+						}
+						else
+						{
+							<option value="False">False</option>
+							<option value="True">True</option>
+						}
+					</select>	</td>
+			</tr>
+			<tr>
+				<td>Clear Override Tags After Start</td>
+				<td><select @onchange="(ClearOverrideTags) => OnClearOverrideTagsChanged(ClearOverrideTags.Value)">
+							@if(@ClearOverrideTags == true)
+					{
+						<option value="True">True</option>
+							<option value="False">False</option>
+						}
+						else
+						{
+							<option value="False">False</option>
+							<option value="True">True</option>
+						}
+					</select>	</td>
+			</tr>
+			<tr>
+				<td>Send Probe Cycle Stats</td>
+				<td><select @onchange="(SendProbeCycleStats) => OnSendProbeCycleStatsChanged(SendProbeCycleStats.Value)">
+					@if(@SendProbeCycleStats == true)
+					{
+						<option value="True">True</option>
+							<option value="False">False</option>
+						}
+						else
+						{
+							<option value="False">False</option>
+							<option value="True">True</option>
+						}
+					</select>	</td>
+			</tr>
+			<tr>
+				<td>Plant Strings</td>
+				<td><input type="text"  @bind=@plantStrings></input></td>
+			</tr>
+			<tr>
+				<td>Encoder Simulator</td>
+				<td><select @onchange="(EncoderSimulator) => OnEncoderSimulatorChanged(EncoderSimulator.Value)">
+							@if(@EncoderSimulator == true)
+					{
+						<option value="True">True</option>
+							<option value="False">False</option>
+						}
+						else
+						{
+							<option value="False">False</option>
+							<option value="True">True</option>
+						}
+					</select>	</td>
+			</tr>
+			<tr>
+				<td>Encoder Sim Only</td>
+				<td><select @onchange="(EncoderSimOnly) => OnEncoderSimOnlyChanged(EncoderSimOnly.Value)">
+							@if(@EncoderSimOnly == true)
+					{
+						<option value="True">True</option>
+							<option value="False">False</option>
+						}
+						else
+						{
+							<option value="False">False</option>
+							<option value="True">True</option>
+						}
+					</select>	</td>
+			</tr>
+			<tr>
+				<td>Write 0.0 on Bad Reads?</td>
+				<td><select @onchange="(WriteZeroOnBadRead) => OnWriteZeroOnBadReadChanged(WriteZeroOnBadRead.Value)">
+							@if(@WriteZeroOnBadRead == true)
+					{
+						<option value="True">True</option>
+							<option value="False">False</option>
+						}
+						else
+						{
+							<option value="False">False</option>
+							<option value="True">True</option>
+						}
+					</select>	</td>
+			</tr>
+</tbody>
+</table>
+</div>
+
+@code {
+
+
+	private bool? enabled = false;
+	private string? serverEndPointURL = "";
+	private string? laneOutputInterval = "";
+	private int? updateRate = 0;
+	private bool? updateInputRUN = false;
+	private bool? clearOverrideTags = false;
+	private bool? sendProbeCycleStats = false;
+	private string? plantStrings = "";
+	private bool? encoderSimulator = false;
+	private bool? encoderSimOnly = false;
+	private bool? writeZeroOnBadRead = false;
+
+	[Parameter]
+	public bool? Enabled { get; set; }
+	[Parameter]
+	public string? ServerEndPointUR{ get; set; }
+	[Parameter]
+	public string? LaneOutputInterval { get; set; }
+	[Parameter]
+	public int? UpdateRate { get; set; }
+	[Parameter]
+	public bool? UpdateInputRUNBit { get; set; }
+	[Parameter]
+	public bool? ClearOverrideTags { get; set; }
+	[Parameter]
+	public bool? SendProbeCycleStats { get; set; }
+	[Parameter]
+	public string? PlantStrings { get; set; }
+	[Parameter]
+	public bool? EncoderSimulator { get; set; }
+	[Parameter]
+	public bool? EncoderSimOnly { get; set; }
+	[Parameter]
+	public bool? WriteZeroOnBadRead { get; set; }
+
+
+	protected override void OnParametersSet()
+	{
+		base.OnParametersSet();
+
+	enabled = Enabled;
+	serverEndPointURL = ServerEndPointUR;
+	laneOutputInterval = LaneOutputInterval;
+	updateRate = UpdateRate;
+	updateInputRUN = UpdateInputRUNBit;
+	clearOverrideTags = ClearOverrideTags;
+	sendProbeCycleStats = SendProbeCycleStats;
+	plantStrings = PlantStrings;
+	encoderSimulator =  EncoderSimulator;
+	encoderSimOnly = EncoderSimOnly;
+	writeZeroOnBadRead = WriteZeroOnBadRead;
+	}
+
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		enabled = Enabled;
+	serverEndPointURL = ServerEndPointUR;
+	laneOutputInterval = LaneOutputInterval;
+	updateRate = UpdateRate;
+	updateInputRUN = UpdateInputRUNBit;
+	clearOverrideTags = ClearOverrideTags;
+	sendProbeCycleStats = SendProbeCycleStats;
+	plantStrings = PlantStrings;
+	encoderSimulator =  EncoderSimulator;
+	encoderSimOnly = EncoderSimOnly;
+	writeZeroOnBadRead = WriteZeroOnBadRead;
+	}
+
+	protected override void OnAfterRender(bool firstRender)
+	{
+		base.OnAfterRender(firstRender);
+		
+	}
+
+
+	public void OnEnabledChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			enabled = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		enabled = result;
+	}
+
+	public void OnUpdateInputRunBitChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			updateInputRUN = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		updateInputRUN = result;
+	}
+
+	public void OnClearOverrideTagsChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			clearOverrideTags = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		clearOverrideTags = result;
+	}
+
+	public void OnSendProbeCycleStatsChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			sendProbeCycleStats = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		sendProbeCycleStats = result;
+	}
+
+	public void OnEncoderSimulatorChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			encoderSimulator = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		encoderSimulator = result;
+	}
+
+	public void OnEncoderSimOnlyChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			encoderSimOnly = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		encoderSimOnly = result;
+	}
+
+	public void OnWriteZeroOnBadReadChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			writeZeroOnBadRead = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		writeZeroOnBadRead = result;
+	}
+
+
+	
+	
+}

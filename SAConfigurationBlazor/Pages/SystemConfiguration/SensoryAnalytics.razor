@@ -1,0 +1,559 @@
+﻿
+@using SAConfigurationBlazor.Pages.SystemConfiguration
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage ProtectedSessionStore
+
+	<div style="border:3px solid black;">
+		<h3><button @onclick="e => this.EncoderSimCollapsed = !this.EncoderSimCollapsed">
+						@( this.EncoderSimCollapsed ? "-" : "+")
+					</button> <u> Encoder Sim </u>
+			</h3>
+@if (EncoderSimCollapsed)
+	{
+		<table class="table">
+			<tbody>
+				<tr>
+					<td>
+
+						<b>Last Changed By</b>
+					</td>
+					<td>
+						<input type="text" disabled="true"  @bind=@ >
+					</input>
+					</td>
+				</tr>
+				<tr>
+					<td>
+
+						<b>Last Saved Date</b>
+					</td>
+					<td>
+						<input type="text" disabled="true"  @bind=@ >
+					</input>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	}
+</div>
+
+
+
+@code {
+	#region Encoder Sim Variables
+	public bool EncoderSimCollapsed { get; set; } = false;
+	private short? positionAtMinSignal = null;
+	private short? positionAtMaxSignal = null;
+	private short? homePosition = null;
+	private string? direction = "";
+	private int? secondsPerRevolution = null;
+	private bool? showHighDetailStats = false;
+	private int? inertialDwellTime = null;
+	private int? degreesDecimalPlaces = null;
+
+	[Parameter]
+	public short?  PositionAtMinSignal{ get; set; }
+	[Parameter]
+	public short? PositionAtMaxSignal { get; set; }
+	[Parameter]
+	public short? HomePosition { get; set; }
+	[Parameter]
+	public string? Direction { get; set; }
+	[Parameter]
+	public int? SecondsPerRevolution { get; set; }
+	[Parameter]
+	public bool? ShowHighDetailStats { get; set; }
+	[Parameter]
+	public int? InertialDwellTime { get; set; }
+	[Parameter]
+	public int? DegreesDecimalPlaces { get; set; }
+	#endregion
+
+	#region SheetCounterSim
+	private string? sheetsPer = "";
+	private bool? sheetCounterEnable = false;
+	public string? per = "";
+	private int? numberSheets = null;
+	private string? reportOutputPath = "";
+	private int? sheetsPerRow = null;
+	private int? maxReportingRows = null;
+	private string? reportPresentation = "";
+	private string? paperSize = "";
+	private string? landscape = "";
+	private int? decimalDigits = null;
+
+	[Parameter]
+	public bool? SheetCounterEnable { get; set; }
+	[Parameter]
+	public string? Per { get; set; }
+	[Parameter]
+	public int? NumberSheets { get; set; }
+	[Parameter]
+	public string? ReportOutputPath { get; set; }
+	[Parameter]
+	public int? SheetsPerRow { get; set; }
+	[Parameter]
+	public int? MaxReportingRows { get; set; }
+	[Parameter]
+	public string? ReportPresentation { get; set; }
+	[Parameter]
+	public string? PaperSize { get; set; }
+	[Parameter]
+	public string? Landscape { get; set; }
+	[Parameter]
+	public int? DecimalDigits { get; set; }
+	#endregion
+
+	#region PLCTraverseUserOptions
+	private string? plcTraverseUserOptions = "";
+	private string? webDivisionType = "";
+	private int? laneWidthPLC = null;
+	private string? relativeDistanceUnit = "";
+	private int? webPrecentagePLC = null;
+	private int? constantLaneCount = null;
+
+	[Parameter]
+	public string? WebDivisionType { get; set; }
+	[Parameter]
+	public int? LaneWidthPLC { get; set; }
+	[Parameter]
+	public string? RelativeDistanceUnit { get; set; }
+	[Parameter]
+	public int? WebPrecentagePLC { get; set; }
+	[Parameter]
+	public int? ConstantLaneCount { get; set; }
+	#endregion
+
+	#region PlcTraverseSettingOptions
+	private int? postionUpdateRate = null;
+	private int? velocityUpdateRate = null;
+
+	[Parameter]
+	public int? PositionUpdateRate { get; set; }
+	[Parameter]
+	public int? VelocityUpdateRate { get; set; }
+	#endregion
+
+	#region Menu
+	private int? menuScalling = null;
+	private string? shutdownMethod = "";
+	private int? logoutTimeout = null;
+	private string? defaultUserID = "";
+	private string? defaultPassword = "";
+	private int? decimalPlaces = null;
+	private int? downwebGraphCount = null;
+	private string? multiLineGraphDisplay = null;
+	private bool? enableStackedGraphs = false;
+	private string? traverseLeftSideName = "";
+	private string? traverseRightSidename = "";
+
+	[Parameter]
+	public int? MenuScalling { get; set; }
+	[Parameter]
+	public string? ShutdownMethod { get; set; }
+	[Parameter]
+	public int? LogoutTimeout { get; set; }
+	[Parameter]
+	public string? DefaultUserID { get; set; }
+	[Parameter]
+	public string? DefaultPassword { get; set; }
+	[Parameter]
+	public int? DecimalPlaces { get; set; }
+	[Parameter]
+	public int? DownwebGraphCount { get; set; }
+	[Parameter]
+	public string? MultiLineGraphDisplay { get; set; }
+	[Parameter]
+	public bool? EnableStackedGraphs { get; set; }
+	[Parameter]
+	public string? TraverseLeftSideName { get; set; }
+	[Parameter]
+	public string? TraverseRightSidename { get; set; }
+
+	#endregion
+
+	#region GraphConfigDownWeb
+	private bool? invertCrosswebGraphDownweb = false;
+	private bool? smoothDownweb = false;
+	private int? smoothingCountDownweb = null;
+	private string? smoothingLevelDownweb = null;
+	private bool? displayThicknessOnbarGraphDownweb = false;
+
+	[Parameter]
+	public bool? InvertCrosswebGraphDownweb { get; set; }
+	[Parameter]
+	public bool? SmoothDownweb { get; set; }
+	[Parameter]
+	public int? SmoothingCountDownweb { get; set; }
+	[Parameter]
+	public string? SmoothingLevelDownweb { get; set; }
+	[Parameter]
+	public bool? DisplayThicknessOnbarGraphDownweb { get; set; }
+	#endregion
+
+	#region GraphConfigCross
+	private bool? invertCrosswebGraphCrossweb = false;
+	private bool? smoothCrossweb = false;
+	private int? smoothingCountCrossweb = null;
+	private string? smoothingLevelCrossweb = null;
+	private bool? displayThicknessOnbarGraphCrossweb = false;
+
+	[Parameter]
+	public bool? InvertCrosswebGraphCrossweb { get; set; }
+	[Parameter]
+	public bool? SmoothCrossweb { get; set; }
+	[Parameter]
+	public int? SmoothingCountCrossweb { get; set; }
+	[Parameter]
+	public string? SmoothingLevelCrossweb { get; set; }
+	[Parameter]
+	public bool? DisplayThicknessOnbarGraphCrossweb { get; set; }
+	#endregion
+
+	#region GraphConfigPolar
+	private int? graphRotationPolar = null;
+	private int? angleLabelsIncrementPolar = null;
+	private int? gridLabelsIncrementPolar = null;
+	private bool? displayAnglesPolar = false;
+	private bool? displaySectorNumberPolar = false;
+	private bool? invertCrosswebGraphsPolar = false;
+	private bool? smoothPolar = false;
+	private int? smootingCountPolar = null;
+	private string? smoothingLevelPolar = null;
+	private bool? displayThicknessOnBarGraphPolar = false;
+
+	[Parameter]
+	public int? GraphRotationPolar { get; set; }
+	[Parameter]
+	public int? AngleLabelsIncrementPolar { get; set; }
+	[Parameter]
+	public int? GridLabelsIncrementPolar { get; set; }
+	[Parameter]
+	public bool? DisplayAnglesPolar { get; set; }
+	[Parameter]
+	public bool? DisplaySectorNumberPolar { get; set; }
+	[Parameter]
+	public bool? InvertCrosswebGraphsPolar { get; set; }
+	[Parameter]
+	public bool? SmoothPolar { get; set; }
+	[Parameter]
+	public int? SmootingCountPolar { get; set; }
+	[Parameter]
+	public string? SmoothingLevelPolar { get; set; }
+	[Parameter]
+	public bool? DisplayThicknessOnBarGraphPolar { get; set; }
+	#endregion
+
+	#region Menu2
+	private string? statusDisplayType = null;
+
+	[Parameter]
+	public string? StatusDisplayType { get; set; }
+	#endregion
+
+	#region GraphConfigLanes
+	private bool? invertCrosswebGraphLanes = false;
+	private bool? smoothLanes = false;
+	private int? smoothingCountLanes = null;
+	private string? smoothingLevelLanes = null;
+	private bool? displayThicknessOnbarGraphLanes = false;
+
+	[Parameter]
+	public bool? InvertCrosswebGraphLanes { get; set; }
+	[Parameter]
+	public bool? SmoothLanes { get; set; }
+	[Parameter]
+	public int? SmoothingCountLanes { get; set; }
+	[Parameter]
+	public string? SmoothingLevelLanes { get; set; }
+	[Parameter]
+	public bool? DisplayThicknessOnbarGraphLanes { get; set; }
+	#endregion
+
+	#region GraphConfigDie
+	private bool? invertCrosswebGraphDie = false;
+	private bool? smoothDie = false;
+	private int? smoothingCountDie = null;
+	private string? smoothingLevelDie = null;
+	private bool? displayThicknessOnbarGraphDie = false;
+
+	[Parameter]
+	public bool? InvertCrosswebGraphDie { get; set; }
+	[Parameter]
+	public bool? SmoothDie { get; set; }
+	[Parameter]
+	public int? SmoothingCountDie { get; set; }
+	[Parameter]
+	public string? SmoothingLevelDie { get; set; }
+	[Parameter]
+	public bool? DisplayThicknessOnbarGraphDie { get; set; }
+	#endregion
+
+	#region Menu3
+	private string? dataArrangment = null;
+	private int? csvSectorCount = null;
+	private int? maxPartitions = null;
+	private bool? restoreRecentQuickAccess = false;
+	private bool? allowSocketConfiguration = false; 
+	private bool? calculateCanCount = false;
+	private bool? showSocketHiddenFields = false;
+	private bool? enableCanAI = false;
+	private bool? showClearRecipeButton = false;
+	private int? minReadsperSet = null;
+	private bool? switchVerification = false;
+	private int? greenColorband = null;
+	private int? yellowColorband = null;
+	private int? redColorband = null;
+	private string? highColor = null;
+	private string? lowColor = null; 
+	private int? consecutiveLowCutoff = null;
+	private int? consecutiveHighCutoff = null; 
+	private bool? showBaseValue = false;
+	private bool? showTotalValue = false;
+	private int? postedReadingsAveraged = null;
+	private int? crosswebLineCount = null;
+	private int? crosswebPositionUpdateRate = null;
+
+	[Parameter]
+	public string? DataArrangment { get; set; }
+	[Parameter]
+	public int? CsvSectorCount { get; set; }
+	[Parameter]
+	public int? MaxPartitions { get; set; }
+	[Parameter]
+	public bool? RestoreRecentQuickAccess { get; set; }
+	[Parameter]
+	public bool? AllowSocketConfiguration { get; set; }
+	[Parameter]
+	public bool? CalculateCanCount { get; set; }
+	[Parameter]
+	public bool? ShowSocketHiddenFields { get; set; }
+	[Parameter]
+	public bool? EnableCanAI { get; set; }
+	[Parameter]
+	public bool? ShowClearRecipeButton { get; set; }
+	[Parameter]
+	public int? MinReadsperSet { get; set; }
+	[Parameter]
+	public bool? SwitchVerification { get; set; }
+	[Parameter]
+	public int? GreenColorband { get; set; }
+	[Parameter]
+	public int? YellowColorband { get; set; }
+	[Parameter]
+	public int? RedColorband { get; set; }
+	[Parameter]
+	public string? HighColor { get; set; }
+	[Parameter]
+	public string? LowColor { get; set; }
+	[Parameter]
+	public int? ConsecutiveLowCutoff { get; set; }
+	[Parameter]
+	public int? ConsecutiveHighCutoff { get; set; }
+	[Parameter]
+	public bool? ShowBaseValue { get; set; }
+	[Parameter]
+	public bool? ShowTotalValue { get; set; }
+	[Parameter]
+	public int? PostedReadingsAveraged { get; set; }
+	[Parameter]
+	public int? CrosswebLineCount { get; set; }
+	[Parameter]
+	public int? CrosswebPositionUpdateRate { get; set; }
+	#endregion
+
+	#region LoggingInterface
+	private string? saCoreLogging = null;
+	private string? lineControllerLogging = null;
+	private string? sensorLogging = null;
+	private string? iOBoradLogging = null;
+	private string? motionLogging = null;
+	private string? databaseCallLogging = null;
+	private string? opcLogging = null;
+	private string? tcpIpLogging = null;
+	private string? uiHmiLogging = null;
+	private string? saServiceLogging = null;
+	private string? dataServiceLogging = null;
+	[Parameter]
+	public string? SaCoreLogging { get; set; }
+	[Parameter]
+	public string? LineControllerLogging { get; set; }
+	[Parameter]
+	public string? SensorLogging { get; set; }
+	[Parameter]
+	public string? IOBoradLogging { get; set; }
+	[Parameter]
+	public string? MotionLogging { get; set; }
+	[Parameter]
+	public string? DatabaseCallLogging { get; set; }
+	[Parameter]
+	public string? OpcLogging { get; set; }
+	[Parameter]
+	public string? TcpIpLogging { get; set; }
+	[Parameter]
+	public string? UiHmiLogging { get; set; }
+	[Parameter]
+	public string? SaServiceLogging { get; set; }
+	[Parameter]
+	public string? DataServiceLogging { get; set; }
+	#endregion
+
+	protected override void OnParametersSet()
+	{
+		base.OnParametersSet();
+
+		#region Encoder Sim
+		positionAtMaxSignal = PositionAtMaxSignal;
+		positionAtMinSignal = PositionAtMinSignal;
+		homePosition = HomePosition;
+		direction = Direction;
+		secondsPerRevolution = SecondsPerRevolution;
+		showHighDetailStats = ShowHighDetailStats;
+		inertialDwellTime = InertialDwellTime;
+		degreesDecimalPlaces = DegreesDecimalPlaces;
+		#endregion
+
+		#region SheetCounterSim
+		sheetCounterEnable = SheetCounterEnable;
+		per = Per;
+		numberSheets = NumberSheets;
+		reportOutputPath = ReportOutputPath;
+		sheetsPerRow = SheetsPerRow;
+		maxReportingRows = MaxReportingRows;
+		reportPresentation = ReportPresentation;
+		paperSize = PaperSize;
+		landscape = Landscape;
+		decimalDigits = DecimalDigits;
+		sheetsPer = (NumberSheets + " sheets/" + Per);
+		#endregion
+
+		#region PLCTraverseUserOptions
+		webDivisionType = WebDivisionType;
+		laneWidthPLC = LaneWidthPLC;
+		relativeDistanceUnit = RelativeDistanceUnit;
+		webPrecentagePLC = WebPrecentagePLC;
+		constantLaneCount = ConstantLaneCount;
+		plcTraverseUserOptions = (WebDivisionType + "Lane Count: " + ConstantLaneCount);
+		#endregion
+
+		#region PLCTraverseSettingOptions
+		postionUpdateRate = PositionUpdateRate;
+		velocityUpdateRate = VelocityUpdateRate;
+		#endregion
+
+		#region Menu
+		menuScalling = MenuScalling;
+		shutdownMethod = ShutdownMethod;
+		logoutTimeout = LogoutTimeout;
+		defaultUserID =		DefaultUserID;
+		defaultPassword = DefaultPassword;
+		decimalPlaces = DecimalPlaces;
+		downwebGraphCount = DownwebGraphCount;
+		multiLineGraphDisplay = MultiLineGraphDisplay;
+		enableStackedGraphs = EnableStackedGraphs;
+		traverseLeftSideName = TraverseLeftSideName;
+		traverseRightSidename = TraverseRightSidename;
+		#endregion
+
+		#region GraphConfigDownweb
+		invertCrosswebGraphDownweb = InvertCrosswebGraphDownweb;
+		smoothDownweb = SmoothDownweb;
+		smoothingCountDownweb = SmoothingCountDownweb;
+		smoothingLevelDownweb = SmoothingLevelDownweb;
+		displayThicknessOnbarGraphDownweb = DisplayThicknessOnbarGraphDownweb;
+		#endregion
+
+		#region GraphConfigCrossweb
+		invertCrosswebGraphCrossweb = InvertCrosswebGraphCrossweb;
+		smoothCrossweb = SmoothCrossweb;
+		smoothingCountCrossweb = SmoothingCountCrossweb;
+		smoothingLevelCrossweb = SmoothingLevelCrossweb;
+		displayThicknessOnbarGraphCrossweb = DisplayThicknessOnbarGraphCrossweb;
+		#endregion
+
+		#region GraphConfigPolar
+		graphRotationPolar = GraphRotationPolar;
+		angleLabelsIncrementPolar = AngleLabelsIncrementPolar;
+		gridLabelsIncrementPolar = GridLabelsIncrementPolar;
+		displayAnglesPolar = DisplayAnglesPolar;
+		displaySectorNumberPolar = DisplaySectorNumberPolar;
+		invertCrosswebGraphsPolar = InvertCrosswebGraphsPolar;
+		smoothPolar = SmoothPolar;
+		smootingCountPolar = SmootingCountPolar;
+		smoothingLevelPolar = SmoothingLevelPolar;
+		displayThicknessOnBarGraphPolar = DisplayThicknessOnBarGraphPolar;
+		#endregion
+
+		#region Menu2
+		statusDisplayType = StatusDisplayType;
+		#endregion
+
+		#region GraphConfigLanes
+		invertCrosswebGraphLanes = InvertCrosswebGraphLanes;
+		smoothLanes = SmoothLanes;
+		smoothingCountLanes = SmoothingCountLanes;
+		smoothingLevelLanes = SmoothingLevelLanes;
+		displayThicknessOnbarGraphLanes = DisplayThicknessOnbarGraphLanes;
+		#endregion
+
+		#region GraphConfigDie
+		invertCrosswebGraphDie = InvertCrosswebGraphDie;
+		smoothDie = SmoothDie;
+		smoothingCountDie = SmoothingCountDie;
+		smoothingLevelDie = SmoothingLevelDie;
+		displayThicknessOnbarGraphDie = DisplayThicknessOnbarGraphDie;
+		#endregion
+
+		#region Menu3
+		dataArrangment = DataArrangment;
+		csvSectorCount = CsvSectorCount;
+		maxPartitions = MaxPartitions;
+		restoreRecentQuickAccess = RestoreRecentQuickAccess;
+		allowSocketConfiguration = AllowSocketConfiguration; 
+		calculateCanCount = CalculateCanCount;
+		showSocketHiddenFields = ShowSocketHiddenFields;
+		enableCanAI = EnableCanAI;
+		showClearRecipeButton = ShowClearRecipeButton;
+		minReadsperSet = MinReadsperSet;
+		switchVerification = SwitchVerification;
+		greenColorband = GreenColorband;
+		yellowColorband = YellowColorband;
+		redColorband = RedColorband;
+		highColor = HighColor;
+		lowColor = LowColor; 
+		consecutiveLowCutoff = ConsecutiveLowCutoff;
+		consecutiveHighCutoff = ConsecutiveHighCutoff; 
+		showBaseValue = ShowBaseValue;
+		showTotalValue = ShowTotalValue;
+		postedReadingsAveraged = PostedReadingsAveraged;
+		crosswebLineCount = CrosswebLineCount ;
+		crosswebPositionUpdateRate = CrosswebPositionUpdateRate;
+		#endregion
+
+		#region LoggingInterface
+		saCoreLogging = SaCoreLogging;
+		lineControllerLogging = LineControllerLogging;
+		sensorLogging = SensorLogging;
+		iOBoradLogging = IOBoradLogging;
+		motionLogging =MotionLogging;
+		databaseCallLogging = DatabaseCallLogging ;
+		opcLogging = OpcLogging;
+		tcpIpLogging = TcpIpLogging;
+		uiHmiLogging = UiHmiLogging;
+		saServiceLogging = SaServiceLogging;
+		dataServiceLogging = DataServiceLogging;
+		#endregion
+	}
+
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+
+	}
+
+	
+
+
+}
+

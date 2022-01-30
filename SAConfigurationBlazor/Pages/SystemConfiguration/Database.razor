@@ -1,0 +1,58 @@
+﻿
+
+	<div style="border:3px solid black;">
+		<h3><button @onclick="e => this.DatabaseCollapsed = !this.DatabaseCollapsed">
+						@( this.DatabaseCollapsed ? "-" : "+")
+					</button> <u> Database </u>
+			</h3>
+@if (DatabaseCollapsed)
+	{
+		<table class="table">
+			<tbody>
+				<tr>
+					<td>
+
+						<b>Days To Hold Data</b>
+					</td>
+					<td>
+						<input type="text"   @bind=@daysToHoldData >
+					</input>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	}
+</div>
+
+
+
+@code {
+	public bool DatabaseCollapsed { get; set; } = false;
+	private int? daysToHoldData = 90;
+	
+
+	[Parameter]
+	public int? DaysToHoldData { get; set; }
+	
+
+	protected override void OnParametersSet()
+	{
+		base.OnParametersSet();
+
+		daysToHoldData = DaysToHoldData;
+	}
+
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		daysToHoldData = DaysToHoldData;
+		
+
+	}
+
+	
+
+
+}
+

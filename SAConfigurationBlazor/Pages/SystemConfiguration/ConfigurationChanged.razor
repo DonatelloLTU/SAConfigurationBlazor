@@ -1,0 +1,73 @@
+﻿
+@using SAConfigurationBlazor.Pages.SystemConfiguration
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage ProtectedSessionStore
+
+	<div style="border:3px solid black;">
+		<h3><button @onclick="e => this.ConfigurationChangedByCollapsed = !this.ConfigurationChangedByCollapsed">
+						@( this.ConfigurationChangedByCollapsed ? "-" : "+")
+					</button> <u> Configuration Changed By </u>
+			</h3>
+@if (ConfigurationChangedByCollapsed)
+	{
+		<table class="table">
+			<tbody>
+				<tr>
+					<td>
+
+						<b>Last Changed By</b>
+					</td>
+					<td>
+						<input type="text" disabled="true"  @bind=@lastChangedBy >
+					</input>
+					</td>
+				</tr>
+				<tr>
+					<td>
+
+						<b>Last Saved Date</b>
+					</td>
+					<td>
+						<input type="text" disabled="true"  @bind=@lastSavedDate >
+					</input>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	}
+</div>
+
+
+
+@code {
+	public bool ConfigurationChangedByCollapsed { get; set; } = false;
+	private string? lastChangedBy = "";
+	private string? lastSavedDate = "";
+
+	[Parameter]
+	public string? LastChangedBy { get; set; }
+	[Parameter]
+	public string? LastSavedDate { get; set; }
+
+	protected override void OnParametersSet()
+	{
+		base.OnParametersSet();
+
+		lastChangedBy = LastChangedBy;
+		lastSavedDate = LastSavedDate;
+	}
+
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		lastChangedBy = LastChangedBy;
+		lastSavedDate = LastSavedDate;
+
+	}
+
+	
+
+
+}
+

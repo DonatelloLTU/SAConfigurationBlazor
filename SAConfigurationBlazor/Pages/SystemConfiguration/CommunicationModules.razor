@@ -4,8 +4,12 @@
 @inject ProtectedSessionStorage ProtectedSessionStore
 
 	<div style="border:3px solid black;">
-		<h3>Communication Modules</h3>
-
+		<h3><button @onclick="e => this.CommunicationModuleCollapsed = !this.CommunicationModuleCollapsed">
+						@( this.CommunicationModuleCollapsed ? "-" : "+")
+					</button> <u>Communication Modules </u>
+			</h3>
+@if (CommunicationModuleCollapsed)
+	{
 		<table class="table">
 			<tbody>
 				<tr>
@@ -15,9 +19,17 @@
 					</td>
 					<td>
 						<b>Enabled: </b>						
-						<select  @onchange="(e) => OnTCPChanged(e.Value)">
-							<option value="True">True</option>
-							<option value="False">False</option>
+						<select @onchange="(TCPModuleConfig) => OnTCPChanged(TCPModuleConfig.Value)">
+							@if (@TCPModuleConfig == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
 						</select>	
 					</td>
 				</tr>
@@ -37,26 +49,34 @@
 					</td>
 					<td>
 						<b>Enabled: </b>						
-						<select  @onchange="(e) => OnIntegrationChangedAsync(e.Value)">
-							<option value="True">True</option>
-							<option value="False">False</option>
+						<select  @onchange="(IntegrationConfig) => OnIntegrationChanged(IntegrationConfig.Value)">
+							@if (@IntegrationConfig == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
 						</select>	
 					</td>
 				</tr>
 				@if (@IntegrationConfig == true)
 				{
-					<tr>@ExpandableContent</tr>
+					<tr><IntegrationConfig></IntegrationConfig></tr>
 				}
 
 			</tbody>
 		</table>
-
-	</div>
+	}
+</div>
 
 
 
 @code {
-
+	public bool CommunicationModuleCollapsed { get; set; } = false;
 	private bool isConnected;
 	public bool? tcpModuleConfig = false;
 	public bool? integrationConfig = false;
@@ -107,17 +127,16 @@
   //      await ProtectedSessionStore.SetAsync("intConfig", integrationConfig);
   //  }
 
-	public async Task OnIntegrationChangedAsync(object args)
+	public void OnIntegrationChanged(object args)
 	{
 		if(string.IsNullOrEmpty(args.ToString()))
 		{
-			integrationConfig = null;    
+			IntegrationConfig = null;    
 			return;
 		}
 
 		bool.TryParse(args.ToString(),out var result);        
-		integrationConfig = result;
-		await ProtectedSessionStore.SetAsync("intConfig", integrationConfig);
+		IntegrationConfig = result;
 	}
 
 	public void OnTCPChanged(object args)
@@ -134,9 +153,7 @@
 
 	public bool TcpCollapsed { get; set; } = false;
 	public bool IntegrationCollapsed { get; set; } = false;
-	public string ExpandableContent { get; set; } = "Lorem Ipsum";
 
-	public TCPModuleConfig expandableContent { get; set; }
 
 }
 

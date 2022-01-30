@@ -1,0 +1,176 @@
+﻿@using System.IO
+@inject IWebHostEnvironment env
+@page "/7"
+
+<div style="border:3px solid black;">
+		<h3><button @onclick="e => this.DataOutputCollapsed = !this.DataOutputCollapsed">
+						@( this.DataOutputCollapsed ? "-" : "+")
+					</button> <u>Data Output </u>
+			</h3>
+	@if (DataOutputCollapsed)
+	{
+		<table class="table">
+			<tbody>
+				<tr>
+					<td>Data Path</td>
+					<td><input type="file"   @bind=@dataPath webkitdirectory directory multiple></input> Needs changed to folder path</td>
+				</tr>
+				<tr>
+					<td>Use Data Subfolder</td>
+					<td><select @onchange="(UseDataSubfolder) => OnUseDataSubfolderChanged(UseDataSubfolder.Value)">
+							@if (@UseDataSubfolder == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>	</td>
+				</tr>
+				<tr>
+					<td>CSV DateTime Format</td>
+					<td><input type="datetime"  @bind=@csvDateTimeFormat></input> Add Selector for datetime</td>
+				</tr>
+
+				<tr>
+					<td>Auto Save CSV</td>
+					<td><input type="text"  @bind=@autoSaveCSV></input></td>
+				</tr>
+				<tr>
+					<td>Save CSV with Run Header</td>
+					<td><select @onchange="(SaveCSVWithRunHeader) => OnSaveCSVWithRunHeaderChanged(SaveCSVWithRunHeader.Value)">
+							@if (@SaveCSVWithRunHeader == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>	</td>
+				</tr>
+				<tr>
+					<td>Save Data Row Header</td>
+					<td><select @onchange="(SaveDataRowHeader) => OnSaveDataRowHeaderChanged(SaveDataRowHeader.Value)">
+							@if (@SaveDataRowHeader == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>	</td>
+				</tr>
+				
+			</tbody>
+		</table>
+	}
+</div>
+
+@code {
+
+	private bool DataOutputCollapsed { get; set; } = false;
+	private string dataPath;
+	private bool? useDataSubfolder = false;
+	private string? csvDateTimeFormat = "";
+	private string? autoSaveCSV = "";
+	private bool? saveCSVWithRunHeader = false;
+	private bool? saveDataRowHeader = false;
+
+	
+	[Parameter]
+	public string DataPath{ get; set; }
+	[Parameter]
+	public bool? UseDataSubfolder { get; set; }
+	[Parameter]
+	public string? CsvDateTimeFormat { get; set; }
+	[Parameter]
+	public string? AutoSaveCSV{ get; set; }
+	[Parameter]
+	public bool? SaveCSVWithRunHeader { get; set; }
+	[Parameter]
+	public bool? SaveDataRowHeader { get; set; }
+
+
+	protected override void OnParametersSet()
+	{
+		base.OnParametersSet();
+		dataPath = DataPath;
+	useDataSubfolder = UseDataSubfolder;
+	csvDateTimeFormat = CsvDateTimeFormat;
+	autoSaveCSV = AutoSaveCSV;
+	saveCSVWithRunHeader = SaveCSVWithRunHeader;
+	saveDataRowHeader = SaveDataRowHeader;
+	
+	}
+
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		dataPath = DataPath;
+	useDataSubfolder = UseDataSubfolder;
+	csvDateTimeFormat = CsvDateTimeFormat;
+	autoSaveCSV = AutoSaveCSV;
+	saveCSVWithRunHeader = SaveCSVWithRunHeader;
+	saveDataRowHeader = SaveDataRowHeader;
+	
+	}
+
+	protected override void OnAfterRender(bool firstRender)
+	{
+		base.OnAfterRender(firstRender);
+		
+	}
+
+
+	public void OnUseDataSubfolderChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			UseDataSubfolder = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		UseDataSubfolder = result;
+	}
+
+	public void OnSaveCSVWithRunHeaderChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			SaveCSVWithRunHeader = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		SaveCSVWithRunHeader = result;
+	}
+
+	public void OnSaveDataRowHeaderChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			SaveDataRowHeader = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		SaveDataRowHeader = result;
+	}
+
+	}
+
+
+	
+	
+

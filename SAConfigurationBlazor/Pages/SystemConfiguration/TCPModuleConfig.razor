@@ -11,7 +11,8 @@
 					</button>
 				</td>
 				<td>
-					<input type="text" disabled="true"  @bind=@ipAddress></input>	
+					<input type="text" disabled="true"  @bind=@ipAndPort >
+					</input>	
 				</td>
 			</tr>
 			@if (@BehaviorCollapsed)
@@ -34,9 +35,17 @@
 			</tr>
 			<tr>
 				<td>Packet Sizes Are Little Endian</td>
-				<td><select  @onchange="(e) => OnLittleEndianChanged(e.Value)">
+				<td><select  @onchange="(PacketSizesAreLittleEndian) => OnLittleEndianChanged(PacketSizesAreLittleEndian.Value)">
+									@if(@PacketSizesAreLittleEndian == true)
+					{
 						<option value="True">True</option>
-						<option value="False">False</option>
+							<option value="False">False</option>
+						}
+						else
+						{
+							<option value="False">False</option>
+							<option value="True">True</option>
+						}
 					</select>	</td>
 			</tr>
 			}
@@ -62,6 +71,7 @@
 	private string? heartbeatExpectedEvery = "";
 	private int? sendMeasurmentEvery = 0;
 	private bool? littleEndian = false;
+	private string? ipAndPort = "";
 
 	[Parameter]
 	public string? IpAddress { get; set; }
@@ -73,6 +83,7 @@
 	public int? SendMeasurmentEvery { get; set; }
 	[Parameter]
 	public bool? PacketSizesAreLittleEndian { get; set; }
+	
 
 
 	protected override void OnParametersSet()
@@ -84,6 +95,7 @@
 		heartbeatExpectedEvery = HeartbeatExpectedEvery;
 		sendMeasurmentEvery = SendMeasurmentEvery;
 		littleEndian = PacketSizesAreLittleEndian;
+		ipAndPort = (ipAddress + ":" + remotePort);
 	}
 
 
@@ -95,9 +107,16 @@
 		heartbeatExpectedEvery = HeartbeatExpectedEvery;
 		sendMeasurmentEvery = SendMeasurmentEvery;
 		littleEndian = PacketSizesAreLittleEndian;
+		ipAndPort = (ipAddress + ":" + remotePort);
 	}
 
-	
+	protected override void OnAfterRender(bool firstRender)
+	{
+		base.OnAfterRender(firstRender);
+		ipAndPort = (ipAddress + ":" + remotePort);
+	}
+
+
 	public void OnLittleEndianChanged(object args)
 	{
 		if(string.IsNullOrEmpty(args.ToString()))

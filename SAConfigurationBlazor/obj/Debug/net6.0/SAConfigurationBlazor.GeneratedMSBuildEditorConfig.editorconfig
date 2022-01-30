@@ -35,6 +35,26 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3lzdGVtQ29uZmlndXJhdGlvblxDb21tdW5pY2F0aW9uTW9kdWxlcy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/VS Projects/SAConfigurationBlazor/SAConfigurationBlazor/Pages/SystemConfiguration/ConfigurationChanged.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3lzdGVtQ29uZmlndXJhdGlvblxDb25maWd1cmF0aW9uQ2hhbmdlZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VS Projects/SAConfigurationBlazor/SAConfigurationBlazor/Pages/SystemConfiguration/Database.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3lzdGVtQ29uZmlndXJhdGlvblxEYXRhYmFzZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VS Projects/SAConfigurationBlazor/SAConfigurationBlazor/Pages/SystemConfiguration/DataOutput.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3lzdGVtQ29uZmlndXJhdGlvblxEYXRhT3V0cHV0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VS Projects/SAConfigurationBlazor/SAConfigurationBlazor/Pages/SystemConfiguration/IntegrationConfig.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3lzdGVtQ29uZmlndXJhdGlvblxJbnRlZ3JhdGlvbkNvbmZpZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VS Projects/SAConfigurationBlazor/SAConfigurationBlazor/Pages/SystemConfiguration/SensoryAnalytics.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3lzdGVtQ29uZmlndXJhdGlvblxTZW5zb3J5QW5hbHl0aWNzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/VS Projects/SAConfigurationBlazor/SAConfigurationBlazor/Pages/SystemConfiguration/TCPModuleConfig.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3lzdGVtQ29uZmlndXJhdGlvblxUQ1BNb2R1bGVDb25maWcucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 

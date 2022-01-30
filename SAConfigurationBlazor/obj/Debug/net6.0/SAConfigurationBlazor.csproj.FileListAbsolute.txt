@@ -26,3 +26,4 @@ D:\VS Projects\SAConfigurationBlazor\SAConfigurationBlazor\obj\Debug\net6.0\SACo
 D:\VS Projects\SAConfigurationBlazor\SAConfigurationBlazor\obj\Debug\net6.0\ref\SAConfigurationBlazor.dll
 D:\VS Projects\SAConfigurationBlazor\SAConfigurationBlazor\obj\Debug\net6.0\SAConfigurationBlazor.pdb
 D:\VS Projects\SAConfigurationBlazor\SAConfigurationBlazor\obj\Debug\net6.0\SAConfigurationBlazor.genruntimeconfig.cache
+D:\VS Projects\SAConfigurationBlazor\SAConfigurationBlazor\obj\Debug\net6.0\SAConfigurationBlazor.csproj.AssemblyReference.cache
