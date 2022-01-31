@@ -1,35 +1,1325 @@
-﻿
+﻿@page "/10"
 @using SAConfigurationBlazor.Pages.SystemConfiguration
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @inject ProtectedSessionStorage ProtectedSessionStore
 
 	<div style="border:3px solid black;">
-		<h3><button @onclick="e => this.EncoderSimCollapsed = !this.EncoderSimCollapsed">
-						@( this.EncoderSimCollapsed ? "-" : "+")
-					</button> <u> Encoder Sim </u>
+		<h3><button @onclick="e => this.SensoryAnalyticsCollapsed = !this.SensoryAnalyticsCollapsed">
+						@( this.SensoryAnalyticsCollapsed ? "-" : "+")
+					</button> <u> Sensory Analytics </u>
 			</h3>
-@if (EncoderSimCollapsed)
+@if (SensoryAnalyticsCollapsed)
 	{
 		<table class="table">
 			<tbody>
 				<tr>
 					<td>
-
-						<b>Last Changed By</b>
+						<u> Encoder Sim </u><button @onclick="e => this.EncoderSimCollapsed = !this.EncoderSimCollapsed">
+						@( this.EncoderSimCollapsed ? "-" : "+")
+					</button>
+			@if (EncoderSimCollapsed)
+						{
+							<table class="table">
+								<tbody>
+									<tr>
+										<td>
+											Position at Min Signal
+										</td>
+										<td>
+											<input type="text"  @bind=@positionAtMinSignal > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Position at Max Signal
+										</td>
+										<td>
+											<input type="text"  @bind=@positionAtMaxSignal >
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Home Position
+										</td>
+										<td>
+											<input type="text"  @bind=@homePosition > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Direction
+										</td>
+										<td>
+											<input type="text"  @bind=@direction >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Seconds Per Revolution
+										</td>
+										<td>
+											<input type="text"  @bind=@secondsPerRevolution >
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Show High Detail Stats
+										</td>
+										<td>
+											<select @onchange="(ShowHighDetailStats) => OnShowHighDetailStatsChanged(ShowHighDetailStats.Value)">
+							@if (@ShowHighDetailStats == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>	
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Inertial Dwell Time
+										</td>
+										<td>
+											<input type="text"  @bind=@inertialDwellTime > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Degrees Decimal Places
+										</td>
+										<td>
+											<input type="text"  @bind=@degreesDecimalPlaces >
+										</td>
+										</tr>
+										</tbody>
+										</table>
+						}
 					</td>
 					<td>
-						<input type="text" disabled="true"  @bind=@ >
-					</input>
+						<input type="text" disabled="true">
+						Encoder Sim Config
+					
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+						<u> Sheet Counter Sim </u><button @onclick="e => this.SheetCounterSimCollapsed = !this.SheetCounterSimCollapsed">
+						@( this.SheetCounterSimCollapsed ? "-" : "+")
+					</button> 
+			
+			@if (SheetCounterSimCollapsed)
+						{
+							<table class="table">
+								<tbody>
+									<tr>
+										<td>
+											Enable
+										</td>
+										<td>
+											<select @onchange="(SheetCounterEnable) => OnSheetCounterEnableChanged(SheetCounterEnable.Value)">
+							@if (@SheetCounterEnable == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>	
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Per
+										</td>
+										<td>
+											<input type="text"  @bind=@per >  Needs adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Number of Sheets
+										</td>
+										<td>
+											<input type="text"  @bind=@numberSheets > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Report Output Path
+										</td>
+										<td>
+											<input type="text"  @bind=@reportOutputPath >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Sheets Per Row
+										</td>
+										<td>
+											<input type="text"  @bind=@sheetsPerRow > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Max Reporting Rows
+										</td>
+										<td>
+											<input type="text"  @bind=@maxReportingRows > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Report Presentation
+										</td>
+										<td>
+											<input type="text"  @bind=@reportPresentation >
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Paper Size
+										</td>
+										<td>
+											<input type="text"  @bind=@paperSize >  Needs adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Landscape
+										</td>
+										<td>
+										<select @onchange="(Landscape) => OnLandscapeChanged(Landscape.Value)">
+							@if (@Landscape == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Decimal Digits
+										</td>
+										<td>
+											<input type="text"  @bind=@decimalDigits > 
+										</td>
+										</tr>
+										
+										</tbody>
+										</table>
+						}
+					</td>
+					<td>
+						<input type="text" disabled="true" @bind=@sheetsPer>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<u> PLC Traverse User Options </u><button @onclick="e => this.PlcTraverseOptionsCollapsed = !this.PlcTraverseOptionsCollapsed">
+						@( this.PlcTraverseOptionsCollapsed ? "-" : "+")
+					</button> 
+			
+			@if (PlcTraverseOptionsCollapsed)
+						{
+							<table class="table">
+								<tbody>
+									<tr>
+										<td>
+											Web Division Type
+										</td>
+										<td>
+											<input type="text"  @bind=@webDivisionType >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											(Fixed Width) Lane Width
+										</td>
+										<td>
+											<input type="text"  @bind=@laneWidthPLC > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Relative Distance Unit
+										</td>
+										<td>
+											<input type="text"  @bind=@relativeDistanceUnit > Needs adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											(Left/Right) Web Precentage
+										</td>
+										<td>
+											<input type="text"  @bind=@webPrecentagePLC > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Constant Lane Count
+										</td>
+										<td>
+											<input type="text"  @bind=@constantLaneCount > 
+										</td>
+										</tr>
+										</tbody>
+										</table>
+						}
+					</td>
+					<td>
+						<input type="text" disabled="true" @bind=@plcTraverseUserOptions>
+						@plcTraverseUserOptions
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<u> PLC Traverse Setting Options </u><button @onclick="e => this.PlcTraverseSettingOptionsCollapsed = !this.PlcTraverseSettingOptionsCollapsed">
+						@( this.PlcTraverseSettingOptionsCollapsed ? "-" : "+")
+					</button> 
+			@if (PlcTraverseSettingOptionsCollapsed)
+						{
+							<table class="table">
+								<tbody>
+									<tr>
+										<td>
+											Position Update Rate (ms)
+										</td>
+										<td>
+											<input type="text"  @bind=@postionUpdateRate >  
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Velocity Update Rate (ms)
+										</td>
+										<td>
+											<input type="text"  @bind=@velocityUpdateRate > 
+										</td>
+										</tr>
+										</tbody>
+										</table>
+						}
+					</td>
+					<td>
+						<input type="text" disabled="true" @bind=@plcTraverseSettingOptions>
+						@plcTraverseSettingOptions
 					</td>
 				</tr>
 				<tr>
-					<td>
+										<td>
+											Menu Scalling
+										</td>
+										<td>
+											<input type="text"  @bind=@menuScalling > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Shutdown Method
+										</td>
+										<td>
+											<input type="text"  @bind=@shutdownMethod >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Login Timeout
+										</td>
+										<td>
+											<input type="text"  @bind=@logoutTimeout > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Default User ID
+										</td>
+										<td>
+											<input type="text"  @bind=@defaultUserID > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Default Password
+										</td>
+										<td>
+											<input type="text"  @bind=@defaultPassword > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Decimal Places
+										</td>
+										<td>
+											<input type="text"  @bind=@decimalPlaces >
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Downweb Graph Count
+										</td>
+										<td>
+											<input type="text"  @bind=@downwebGraphCount > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Multi-line Graph Display
+										</td>
+										<td>
+											<input type="text"  @bind=@multiLineGraphDisplay >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Enable Stacked Graphs
+										</td>
+										<td>
+										<select @onchange="(EnableStackedGraphs) => OnEnableStackedGraphsChanged(EnableStackedGraphs.Value)">
+							@if (@EnableStackedGraphs == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Traverse Left-side Name
+										</td>
+										<td>
+											<input type="text"  @bind=@traverseLeftSideName >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Traverse Right-side Name
+										</td>
+										<td>
+											<input type="text"  @bind=@traverseRightSidename > Needs Adressed!!!
+										</td>
+										</tr>
 
-						<b>Last Saved Date</b>
+										<tr>
+					<td>
+						<u> Graph Config (Down web) </u><button @onclick="e => this.GraphConfigDownwebCollapsed = !this.GraphConfigDownwebCollapsed">
+						@( this.GraphConfigDownwebCollapsed ? "-" : "+")
+					</button> 
+			
+			@if (GraphConfigDownwebCollapsed)
+						{
+							<table class="table">
+								<tbody>
+									<tr>
+										<td>
+											Invert Crossweb Graph
+										</td>
+										<td>
+										<select @onchange="(InvertCrosswebGraphDownweb) => OnInvertCrosswebGraphDownwebChanged(InvertCrosswebGraphDownweb.Value)">
+							@if (@InvertCrosswebGraphDownweb == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Smooth?
+										</td>
+										<td>
+										<select @onchange="(SmoothDownweb) => OnSmoothDownwebChanged(SmoothDownweb.Value)">
+							@if (@SmoothDownweb == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Smoothing Count
+										</td>
+										<td>
+											<input type="text"  @bind=@smoothingCountDownweb >
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Smoothing Level
+										</td>
+										<td>
+											<input type="text"  @bind=@smoothingLevelDownweb >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Display Thickness on Bar Graph
+										</td>
+										<td>
+										<select @onchange="(DisplayThicknessOnbarGraphDownweb) => OnDisplayThicknessOnbarGraphDownwebChanged(DisplayThicknessOnbarGraphDownweb.Value)">
+							@if (@DisplayThicknessOnbarGraphDownweb == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										</tbody>
+										</table>
+						}
 					</td>
 					<td>
-						<input type="text" disabled="true"  @bind=@ >
-					</input>
+						
+						Graph Configuration
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<u> Graph Config (Cross web) </u><button @onclick="e => this.GraphConfigCrosswebCollapsed = !this.GraphConfigCrosswebCollapsed">
+						@( this.GraphConfigCrosswebCollapsed ? "-" : "+")
+					</button> 
+			
+			@if (GraphConfigCrosswebCollapsed)
+						{
+							<table class="table">
+								<tbody>
+									<tr>
+										<td>
+											Invert Crossweb Graph
+										</td>
+										<td>
+										<select @onchange="(InvertCrosswebGraphCrossweb) => OnInvertCrosswebGraphCrosswebChanged(InvertCrosswebGraphCrossweb.Value)">
+							@if (@InvertCrosswebGraphCrossweb == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Smooth?
+										</td>
+										<td>
+										<select @onchange="(SmoothCrossweb) => OnSmoothCrosswebChanged(SmoothCrossweb.Value)">
+							@if (@SmoothCrossweb == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Smoothing Count
+										</td>
+										<td>
+											<input type="text"  @bind=@smoothingCountCrossweb > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Smoothing Level
+										</td>
+										<td>
+											<input type="text"  @bind=@smoothingLevelCrossweb >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Display Thickness on Bar Graph
+										</td>
+										<td>
+										<select @onchange="(DisplayThicknessOnbarGraphCrossweb) => OnDisplayThicknessOnbarGraphCrosswebChanged(DisplayThicknessOnbarGraphCrossweb.Value)">
+							@if (@DisplayThicknessOnbarGraphCrossweb == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										</tbody>
+										</table>
+						}
+					</td>
+					<td>
+						
+						Graph Configuration
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<u> Graph Config (Polar) </u><button @onclick="e => this.GraphConfigPolarCollapsed = !this.GraphConfigPolarCollapsed">
+						@( this.GraphConfigPolarCollapsed ? "-" : "+")
+					</button> 
+			
+			@if (GraphConfigPolarCollapsed)
+						{
+							<table class="table">
+								<tbody>
+									<tr>
+										<td>
+											Graph Rotation
+										</td>
+										<td>
+											<input type="text"  @bind=@graphRotationPolar > Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Angle Labels Increment
+										</td>
+										<td>
+											<input type="text"  @bind=@angleLabelsIncrementPolar > Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Grid Label Increment
+										</td>
+										<td>
+											<input type="text"  @bind=@gridLabelsIncrementPolar >  
+										</td>
+										</tr>
+									<tr>
+										<td>
+											Display Angles
+										</td>
+										<td>
+										<select @onchange="(DisplayAnglesPolar) => OnInvertCrosswebGraphDieChanged(DisplayAnglesPolar.Value)">
+							@if (@DisplayAnglesPolar == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Invert Crossweb Graph
+										</td>
+										<td>
+										<select @onchange="(InvertCrosswebGraphsPolar) => OnInvertCrosswebGraphPolarChanged(InvertCrosswebGraphsPolar.Value)">
+							@if (@InvertCrosswebGraphsPolar == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Smooth?
+										</td>
+										<td>
+										<select @onchange="(SmoothPolar) => OnSmoothPolarChanged(SmoothPolar.Value)">
+							@if (@SmoothPolar == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Smoothing Count
+										</td>
+										<td>
+											<input type="text"  @bind=@smoothingLevelPolar > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Smoothing Level
+										</td>
+										<td>
+											<input type="text"  @bind=@smoothingLevelPolar > Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Display Thickness on Bar Graph
+										</td>
+										<td>
+										<select @onchange="(DisplayThicknessOnBarGraphPolar) => OnDisplayThicknessOnbarGraphPolarChanged(DisplayThicknessOnBarGraphPolar.Value)">
+							@if (@DisplayThicknessOnBarGraphPolar == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										</tbody>
+										</table>
+						}
+					</td>
+					<td>
+						
+						Graph Configuration
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<u> Graph Config (Lanes) </u><button @onclick="e => this.GraphConfigLanesCollapsed = !this.GraphConfigLanesCollapsed">
+						@( this.GraphConfigLanesCollapsed ? "-" : "+")
+					</button> 
+			
+			@if (GraphConfigLanesCollapsed)
+						{
+							<table class="table">
+								<tbody>
+									<tr>
+										<td>
+											Invert Crossweb Graph
+										</td>
+										<td>
+										<select @onchange="(InvertCrosswebGraphLanes) => OnInvertCrosswebGraphLanesChanged(InvertCrosswebGraphLanes.Value)">
+							@if (@InvertCrosswebGraphLanes == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Smooth?
+										</td>
+										<td>
+										<select @onchange="(SmoothLanes) => OnSmoothLanesChanged(SmoothLanes.Value)">
+							@if (@SmoothLanes == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Smoothing Count
+										</td>
+										<td>
+											<input type="text"  @bind=@smoothingCountLanes > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Smoothing Level
+										</td>
+										<td>
+											<input type="text"  @bind=@smoothingLevelLanes >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Display Thickness on Bar Graph
+										</td>
+										<td>
+										<select @onchange="(DisplayThicknessOnbarGraphLanes) => OnDisplayThicknessOnbarGraphLanesChanged(DisplayThicknessOnbarGraphLanes.Value)">
+							@if (@DisplayThicknessOnbarGraphLanes == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										</tbody>
+										</table>
+						}
+					</td>
+					<td>
+						
+						Graph Configuration
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<u> Graph Config (Die) </u><button @onclick="e => this.GraphConfigDieCollapsed = !this.GraphConfigDieCollapsed">
+						@( this.GraphConfigDieCollapsed ? "-" : "+")
+					</button> 
+			@if (GraphConfigDieCollapsed)
+						{
+							<table class="table">
+								<tbody>
+									<tr>
+										<td>
+											Invert Crossweb Graph
+										</td>
+										<td>
+										<select @onchange="(InvertCrosswebGraphDie) => OnInvertCrosswebGraphDieChanged(InvertCrosswebGraphDie.Value)">
+							@if (@InvertCrosswebGraphDie == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Smooth?
+										</td>
+										<td>
+										<select @onchange="(SmoothDie) => OnSmoothDieChanged(SmoothDie.Value)">
+							@if (@SmoothDie == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Smoothing Count
+										</td>
+										<td>
+											<input type="text"  @bind=@smoothingCountDie > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Smoothing Level
+										</td>
+										<td>
+											<input type="text"  @bind=@smoothingLevelDie >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Display Thickness on Bar Graph
+										</td>
+										<td>
+										<select @onchange="(DisplayThicknessOnbarGraphDie) => OnDisplayThicknessOnbarGraphDieChanged(DisplayThicknessOnbarGraphDie.Value)">
+							@if (@DisplayThicknessOnbarGraphDie == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										</tbody>
+										</table>
+						}
+					</td>
+					<td>
+						
+						Graph Configuration
+					</td>
+				</tr>
+				<tr>
+										<td>
+											Data Arrangement
+										</td>
+										<td>
+											<input type="text"  @bind=@dataArrangment >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											CSV Sector Count
+										</td>
+										<td>
+											<input type="text"  @bind=@csvSectorCount > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Max partitions
+										</td>
+										<td>
+											<input type="text"  @bind=@maxPartitions > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Restore Recent Quick Access
+										</td>
+										<td>
+										<select @onchange="(RestoreRecentQuickAccess) => OnRestoreRecentQuickAccessChanged(RestoreRecentQuickAccess.Value)">
+							@if (@RestoreRecentQuickAccess == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Allow Socket Configuration
+										</td>
+										<td>
+										<select @onchange="(AllowSocketConfiguration) => OnAllowSocketConfigurationChanged(AllowSocketConfiguration.Value)">
+							@if (@AllowSocketConfiguration == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Calculate Can Count
+										</td>
+										<td>
+										<select @onchange="(CalculateCanCount) => OnCalculateCanCountChanged(CalculateCanCount.Value)">
+							@if (@CalculateCanCount == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Show Socket Hidden Fields
+										</td>
+										<td>
+										<select @onchange="(ShowSocketHiddenFields) => OnShowSocketHiddenFieldsChanged(ShowSocketHiddenFields.Value)">
+							@if (@ShowSocketHiddenFields == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Enable Can AI
+										</td>
+										<td>
+										<select @onchange="(EnableCanAI) => OnEnableCanAIChanged(EnableCanAI.Value)">
+							@if (@EnableCanAI == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Show Clear Recipe Button
+										</td>
+										<td>
+										<select @onchange="(ShowClearRecipeButton) => OnShowClearRecipeButtonChanged(ShowClearRecipeButton.Value)">
+							@if (@ShowClearRecipeButton == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Min Reads Per Set
+										</td>
+										<td>
+											<input type="text"  @bind=@minReadsperSet > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Switch Verification
+										</td>
+										<td>
+										<select @onchange="(SwitchVerification) => OnSwitchVerificationChanged(SwitchVerification.Value)">
+							@if (@SwitchVerification == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Green Colorband
+										</td>
+										<td>
+											<input type="text"  @bind=@greenColorband >
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Yellow Colorband
+										</td>
+										<td>
+											<input type="text"  @bind=@yellowColorband > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Red Colorband
+										</td>
+										<td>
+											<input type="text"  @bind=@redColorband >
+										</td>
+										</tr>
+										<tr>
+										<td>
+											High Color
+										</td>
+										<td>
+											<input type="text"  @bind=@highColor >  Needs adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Low Color
+										</td>
+										<td>
+											<input type="text"  @bind=@lowColor >  Needs Adressed!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Consecutive Low Cutoff
+										</td>
+										<td>
+											<input type="text"  @bind=@consecutiveLowCutoff > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Consecutive High Cutoff
+										</td>
+										<td>
+											<input type="text"  @bind=@consecutiveHighCutoff > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Show Base Value
+										</td>
+										<td>
+										<select @onchange="(ShowBaseValue) => OnShowBaseValueChanged(ShowBaseValue.Value)">
+							@if (@ShowBaseValue == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Show Total Value
+										</td>
+										<td>
+										<select @onchange="(ShowTotalValue) => OnShowTotalValueChanged(ShowTotalValue.Value)">
+							@if (@ShowTotalValue == true)
+							{
+								<option value="True">True</option>
+								<option value="False">False</option>
+							}
+							else
+							{
+								<option value="False">False</option>
+								<option value="True">True</option>
+							}
+						</select>
+						</td>
+										</tr>
+										<tr>
+										<td>
+											Posted Readings Averaged
+										</td>
+										<td>
+											<input type="text"  @bind=@postedReadingsAveraged > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											CrossWeb Line Count
+										</td>
+										<td>
+											<input type="text"  @bind=@crosswebLineCount > 
+										</td>
+										</tr>
+										<tr>
+										<td>
+											CrossWeb Position Update Rate
+										</td>
+										<td>
+											<input type="text"  @bind=@crosswebPositionUpdateRate > 
+										</td>
+										</tr>
+										<tr>
+					<td>
+						<u> Logging Interface </u><button @onclick="e => this.LoggingInterfaceCollapsed = !this.LoggingInterfaceCollapsed">
+						@( this.LoggingInterfaceCollapsed ? "-" : "+")
+					</button> 
+			
+			@if (LoggingInterfaceCollapsed)
+						{
+							<table class="table">
+								<tbody>
+									
+										
+										
+										<tr>
+										<td>
+											SA Core Logging
+										</td>
+										<td>
+											<input type="text"  @bind=@saCoreLogging >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Line Controller Logging
+										</td>
+										<td>
+											<input type="text"  @bind=@lineControllerLogging >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Sensor Logging
+										</td>
+										<td>
+											<input type="text"  @bind=@sensorLogging >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											I/O Board Logging
+										</td>
+										<td>
+											<input type="text"  @bind=@iOBoradLogging >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Motion Logging
+										</td>
+										<td>
+											<input type="text"  @bind=@motionLogging >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Database Call Logging
+										</td>
+										<td>
+											<input type="text"  @bind=@databaseCallLogging >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											OPC Logging
+										</td>
+										<td>
+											<input type="text"  @bind=@opcLogging >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											TCP/IP Logging
+										</td>
+										<td>
+											<input type="text"  @bind=@tcpIpLogging >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											UI/HMI Logging
+										</td>
+										<td>
+											<input type="text"  @bind=@uiHmiLogging >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											SA Service Logging
+										</td>
+										<td>
+											<input type="text"  @bind=@saServiceLogging >  Needs Adressed!!!
+										</td>
+										</tr>
+										<tr>
+										<td>
+											Data Service Logging
+										</td>
+										<td>
+											<input type="text"  @bind=@dataServiceLogging >  Needs Adressed!!!
+										</td>
+										</tr>
+										</tbody>
+										</table>
+						}
+					</td>
+					<td>
+						
+						Graph Configuration
 					</td>
 				</tr>
 			</tbody>
@@ -41,6 +1331,16 @@
 
 @code {
 	#region Encoder Sim Variables
+	public bool LoggingInterfaceCollapsed { get; set; }
+	public bool GraphConfigPolarCollapsed { get; set; }
+	public bool GraphConfigDieCollapsed { get; set; }
+	public bool GraphConfigLanesCollapsed { get; set; }
+	public bool GraphConfigCrosswebCollapsed { get; set; }
+	public bool GraphConfigDownwebCollapsed { get; set; }
+	public bool PlcTraverseSettingOptionsCollapsed { get; set; }
+	public bool PlcTraverseOptionsCollapsed { get; set; }
+	public bool SheetCounterSimCollapsed { get; set; }
+	public bool SensoryAnalyticsCollapsed { get; set; }
 	public bool EncoderSimCollapsed { get; set; } = false;
 	private short? positionAtMinSignal = null;
 	private short? positionAtMaxSignal = null;
@@ -79,7 +1379,7 @@
 	private int? maxReportingRows = null;
 	private string? reportPresentation = "";
 	private string? paperSize = "";
-	private string? landscape = "";
+	private bool? landscape = false;
 	private int? decimalDigits = null;
 
 	[Parameter]
@@ -99,7 +1399,7 @@
 	[Parameter]
 	public string? PaperSize { get; set; }
 	[Parameter]
-	public string? Landscape { get; set; }
+	public bool? Landscape { get; set; }
 	[Parameter]
 	public int? DecimalDigits { get; set; }
 	#endregion
@@ -127,14 +1427,16 @@
 	#region PlcTraverseSettingOptions
 	private int? postionUpdateRate = null;
 	private int? velocityUpdateRate = null;
+	private string? plcTraverseSettingOptions = null;
 
 	[Parameter]
 	public int? PositionUpdateRate { get; set; }
 	[Parameter]
 	public int? VelocityUpdateRate { get; set; }
+	
 	#endregion
 
-	#region Menu
+		#region Menu
 	private int? menuScalling = null;
 	private string? shutdownMethod = "";
 	private int? logoutTimeout = null;
@@ -439,6 +1741,7 @@
 		#region PLCTraverseSettingOptions
 		postionUpdateRate = PositionUpdateRate;
 		velocityUpdateRate = VelocityUpdateRate;
+		plcTraverseSettingOptions = ("Pos: " + postionUpdateRate + ", Vel: " + velocityUpdateRate);
 		#endregion
 
 		#region Menu
@@ -552,8 +1855,340 @@
 
 	}
 
+	public void OnShowHighDetailStatsChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			ShowHighDetailStats = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		ShowHighDetailStats = result;
+	}
 	
+	public void OnSheetCounterEnableChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			SheetCounterEnable = null;    
+			return;
+		}
 
+		bool.TryParse(args.ToString(),out var result);        
+		SheetCounterEnable = result;
+	}
 
+	public void OnLandscapeChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			Landscape = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		Landscape = result;
+	}
+
+	public void OnEnableStackedGraphsChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			EnableStackedGraphs = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		EnableStackedGraphs = result;
+	}
+
+	public void OnInvertCrosswebGraphDownwebChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			InvertCrosswebGraphDownweb = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		InvertCrosswebGraphDownweb = result;
+	}
+
+	public void OnSmoothDownwebChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			SmoothDownweb = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		SmoothDownweb = result;
+	}
+
+	public void OnDisplayThicknessOnbarGraphDownwebChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			DisplayThicknessOnbarGraphDownweb = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		DisplayThicknessOnbarGraphDownweb = result;
+	}
+
+	public void OnInvertCrosswebGraphCrosswebChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			InvertCrosswebGraphCrossweb = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		InvertCrosswebGraphCrossweb = result;
+	}
+
+	public void OnSmoothCrosswebChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			SmoothCrossweb = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		SmoothCrossweb = result;
+	}
+
+	public void OnDisplayThicknessOnbarGraphCrosswebChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			DisplayThicknessOnbarGraphCrossweb = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		DisplayThicknessOnbarGraphCrossweb = result;
+	}
+
+	public void OnInvertCrosswebGraphLanesChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			InvertCrosswebGraphLanes = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		InvertCrosswebGraphLanes= result;
+	}
+
+	public void OnSmoothLanesChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			SmoothLanes = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		SmoothLanes = result;
+	}
+
+	public void OnDisplayThicknessOnbarGraphLanesChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			DisplayThicknessOnbarGraphLanes = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		DisplayThicknessOnbarGraphLanes = result;
+	}
+
+	public void OnInvertCrosswebGraphDieChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			InvertCrosswebGraphDie = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		InvertCrosswebGraphDie= result;
+	}
+
+	public void OnSmoothDieChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			SmoothDie = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		SmoothDie = result;
+	}
+
+	public void OnDisplayThicknessOnbarGraphDieChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			DisplayThicknessOnbarGraphDie = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		DisplayThicknessOnbarGraphDie = result;
+	}
+
+	public void OnInvertCrosswebGraphPolarChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			InvertCrosswebGraphsPolar = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		InvertCrosswebGraphsPolar= result;
+	}
+
+	public void OnSmoothPolarChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			SmoothPolar = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		SmoothPolar = result;
+	}
+
+	public void OnDisplayThicknessOnbarGraphPolarChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			DisplayThicknessOnBarGraphPolar = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		DisplayThicknessOnBarGraphPolar = result;
+	}
+
+	public void OnRestoreRecentQuickAccessChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			RestoreRecentQuickAccess = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		RestoreRecentQuickAccess = result;
+	}
+
+	public void OnAllowSocketConfigurationChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			AllowSocketConfiguration = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		AllowSocketConfiguration = result;
+	}
+
+	public void OnCalculateCanCountChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			CalculateCanCount = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		CalculateCanCount = result;
+	}
+
+	public void OnShowSocketHiddenFieldsChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			ShowSocketHiddenFields = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		ShowSocketHiddenFields = result;
+	}
+
+	public void OnEnableCanAIChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			EnableCanAI = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		EnableCanAI = result;
+	}
+
+	public void OnShowClearRecipeButtonChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			ShowClearRecipeButton = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		ShowClearRecipeButton = result;
+	}
+
+	public void OnSwitchVerificationChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			SwitchVerification = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		SwitchVerification = result;
+	}
+
+	public void OnShowBaseValueChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			ShowBaseValue = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		ShowBaseValue = result;
+	}
+
+	public void OnShowTotalValueChanged(object args)
+	{
+		if(string.IsNullOrEmpty(args.ToString()))
+		{
+			ShowTotalValue = null;    
+			return;
+		}
+
+		bool.TryParse(args.ToString(),out var result);        
+		ShowTotalValue = result;
+	}
 }
 
